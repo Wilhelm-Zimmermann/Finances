@@ -27,9 +27,11 @@ namespace FinanceController.Domain.Api.Extensions
 
             // REPOSITORIES
             builder.Services.AddScoped<IBillTypeRepository, BillTypeRepository>();
+            builder.Services.AddScoped<IBillRepository, BillRepository>();
 
             // HANDLERS
             builder.Services.AddScoped<BillTypeHandler, BillTypeHandler>();
+            builder.Services.AddScoped<BillHandler, BillHandler>();
         }
     }
 }

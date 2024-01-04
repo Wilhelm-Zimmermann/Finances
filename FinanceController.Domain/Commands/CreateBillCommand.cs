@@ -1,8 +1,8 @@
-﻿using FinanceController.Domain.Entities;
+﻿using FinanceController.Domain.Commands.Contracts;
 
 namespace FinanceController.Domain.Commands
 {
-    public class CreateBillCommand
+    public class CreateBillCommand : ICommand
     {
         public string Name { get; set; }
         public double Price { get; set; }
