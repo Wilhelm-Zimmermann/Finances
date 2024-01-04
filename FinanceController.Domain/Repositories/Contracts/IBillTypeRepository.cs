@@ -10,5 +10,7 @@ namespace FinanceController.Domain.Repositories.Contracts
     public interface IBillTypeRepository
     {
         Task CreateBill(BillType billType);
+        Task<IEnumerable<BillType>> GetAllBillTypes();
+        Task DeleteBillType(Guid id);
     }
 }
