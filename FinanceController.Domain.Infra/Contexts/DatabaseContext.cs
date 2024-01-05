@@ -7,6 +7,7 @@ namespace FinanceController.Domain.Infra.Contexts
     {
         public DbSet<BillType?> BillTypes { get; set; }
         public DbSet<Bill> Bills { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) 
         {
@@ -34,6 +35,17 @@ namespace FinanceController.Domain.Infra.Contexts
                 entity.Property(a => a.Description);
                 entity.Property(a => a.PaidDate);
                 entity.HasOne(a => a.BillType).WithMany(x => x.Bills).OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(a => a.User).WithMany(x => x.Bills).OnDelete(DeleteBehavior.Cascade);                
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("users");
+                entity.HasKey(a => a.Id);
+                entity.Property(a => a.Name).IsRequired();
+                entity.Property(a => a.Email).IsRequired();
+                entity.Property(a => a.Password).IsRequired();
+                entity.Property(a => a.Role).IsRequired();
             });
         }
     }

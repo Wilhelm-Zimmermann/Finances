@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceController.Domain.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceController.Domain.Infra", "FinanceController.Domain.Infra\FinanceController.Domain.Infra.csproj", "{F0694E6E-E0B5-4DA0-9046-DF78A6264E4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceController.Domain.Shared", "FinanceController.Domain.Shared\FinanceController.Domain.Shared.csproj", "{99D9BE3E-CF2E-4B22-B390-EDAC4AD3931E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{F0694E6E-E0B5-4DA0-9046-DF78A6264E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0694E6E-E0B5-4DA0-9046-DF78A6264E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0694E6E-E0B5-4DA0-9046-DF78A6264E4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99D9BE3E-CF2E-4B22-B390-EDAC4AD3931E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D9BE3E-CF2E-4B22-B390-EDAC4AD3931E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D9BE3E-CF2E-4B22-B390-EDAC4AD3931E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D9BE3E-CF2E-4B22-B390-EDAC4AD3931E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

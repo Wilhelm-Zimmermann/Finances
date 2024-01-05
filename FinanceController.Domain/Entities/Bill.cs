@@ -10,13 +10,17 @@
         public Guid BillTypeId { get; private set; }
         public BillType BillType { get; private set; }
 
-        public Bill(string name, double price, string description, DateTime paidDate, Guid billTypeId)
+        public Guid UserId { get; private set; }
+        public User User { get; private set; }
+
+        public Bill(string name, double price, string description, DateTime paidDate, Guid billTypeId, Guid userId)
         {
             Name = name;
             Price = price;
             Description = description;
             PaidDate = paidDate;
             BillTypeId = billTypeId;
+            UserId = userId;
         }
 
         public void SetPaidDate(DateTime paidDate)
