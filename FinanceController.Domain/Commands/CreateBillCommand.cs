@@ -10,14 +10,16 @@ namespace FinanceController.Domain.Commands
         public DateTime PaidDate { get; set; }
 
         public Guid BillTypeId { get; set; }
+        public Guid UserId { get; set; }
 
-        public CreateBillCommand(string name, double price, string description, DateTime paidDate, Guid billTypeId)
+        public CreateBillCommand(string name, double price, string description, DateTime paidDate, Guid billTypeId, Guid userId)
         {
             Name = name;
             Price = price;
             Description = description;
             PaidDate = paidDate;
             BillTypeId = billTypeId;
+            UserId = userId;
         }
     }
 }
