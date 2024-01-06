@@ -19,6 +19,7 @@ namespace FinanceController.Domain.Api.Utils
                 {
                     new Claim(ClaimTypes.Name, user.Name.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim(ClaimTypes.SerialNumber, user.Id.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

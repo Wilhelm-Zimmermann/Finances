@@ -31,11 +31,12 @@ namespace FinanceController.Domain.Shared.Utils
         public static bool PasswordMatch(string password, string hashedPassword)
         {
             var saltAndPasswordHash = Convert.FromBase64String(hashedPassword);
+
             if (saltAndPasswordHash.Length <= 16)
             {
-                // Handle appropriately if the length is insufficient
                 return false;
             }
+
             var salt = new byte[16];
             var passwordHash = new byte[saltAndPasswordHash.Length - 16];
             Buffer.BlockCopy(saltAndPasswordHash, 0, salt, 0, 16);
