@@ -1,4 +1,5 @@
 using FinanceController.Domain.Api.Extensions;
+using FinanceController.Domain.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +27,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

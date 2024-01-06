@@ -1,6 +1,7 @@
 ﻿using FinanceController.Domain.Commands;
 using FinanceController.Domain.Handlers;
 using FinanceController.Domain.Repositories.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceController.Domain.Api.Controllers
@@ -11,6 +12,7 @@ namespace FinanceController.Domain.Api.Controllers
     {
         [HttpPost]
         [Route("create/{billTypeId}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<GenericCommandResult>> CreateBill([FromBody] CreateBillCommand command, [FromServices] BillHandler handler, Guid billTypeId)
         {
             command.BillTypeId = billTypeId;
