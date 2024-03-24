@@ -2,6 +2,6 @@
 {
     public static class TokenSettings
     {
-        public static string SecretKey = "wueHNIFIOJASDÇkaj209";
+        public static string SecretKey = "6f8e8c41-939f-4930-855c-cd93f89abc94";
     }
 }

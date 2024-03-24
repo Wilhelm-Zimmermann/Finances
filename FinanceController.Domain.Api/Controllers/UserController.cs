@@ -2,6 +2,7 @@
 using FinanceController.Domain.Commands;
 using FinanceController.Domain.Entities;
 using FinanceController.Domain.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceController.Domain.Api.Controllers
@@ -12,6 +13,7 @@ namespace FinanceController.Domain.Api.Controllers
     {
         [HttpPost]
         [Route("create")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<GenericCommandResult>> CreateUser([FromBody] CreateUserCommand command, [FromServices] UserHandler handler)
         {
             var user = await handler.Handle(command);
