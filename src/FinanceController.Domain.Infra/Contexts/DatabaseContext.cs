@@ -8,6 +8,8 @@ namespace FinanceController.Domain.Infra.Contexts
         public DbSet<BillType?> BillTypes { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Entities.Domain> Domains { get; set; }
+        public DbSet<Privilege> Privileges { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) 
         {
@@ -34,6 +36,22 @@ namespace FinanceController.Domain.Infra.Contexts
                 entity.Property(a => a.PaidDate);
                 entity.HasOne(a => a.BillType).WithMany(x => x.Bills).OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(a => a.User).WithMany(x => x.Bills).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasMany(typeof(Privilege), nameof(User.Privileges))
+                    .WithMany(nameof(Privilege.Users))
+                    .UsingEntity("UsersPrivileges", t =>
+                    {
+                        t.Property("PrivilegesId")
+                            .IsRequired()
+                            .HasColumnName("PrivilegeId");
+
+                        t.Property("UsersId")
+                            .IsRequired()
+                            .HasColumnName("UserId");
+                    });
             });
         }
     }

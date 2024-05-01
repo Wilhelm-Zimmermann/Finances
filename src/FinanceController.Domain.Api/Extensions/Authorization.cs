@@ -1,5 +1,8 @@
-﻿using FinanceController.Domain.Api.Settings;
+﻿using FinanceController.Domain.Api.Authentication;
+using FinanceController.Domain.Api.Settings;
+using FinanceController.Domain.Infra.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -21,6 +24,9 @@ namespace FinanceController.Domain.Api.Extensions
                 });
 
             builder.Services.AddAuthorization();
+            builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            builder.Services.AddSingleton<IPermissionService, PermissionService>();
+            builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using FinanceController.Domain.Commands;
+﻿using FinanceController.Domain.Api.Authentication;
+using FinanceController.Domain.Commands;
 using FinanceController.Domain.Handlers;
+using FinanceController.Domain.Infra.Commons.Constants;
 using FinanceController.Domain.Repositories.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +14,7 @@ namespace FinanceController.Domain.Api.Controllers
     {
         [HttpPost]
         [Route("create/{billTypeId}")]
-        [Authorize]
+        [HasPermission(Privileges.BillCreate)]
         public async Task<ActionResult<GenericCommandResult>> CreateBill([FromBody] CreateBillCommand command, [FromServices] BillHandler handler, Guid billTypeId)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId") ?? throw new NullReferenceException();
@@ -25,6 +27,7 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpGet]
         [Route("list")]
+        [HasPermission(Privileges.BillRead)]
         public async Task<ActionResult<GenericCommandResult>> ListAllBills([FromServices] IBillRepository repository)
         {
             var bills = await repository.GetAllBills();
@@ -35,6 +38,7 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpGet]
         [Route("list/user-logged")]
+        [HasPermission(Privileges.BillRead)]
         public async Task<ActionResult<GenericCommandResult>> ListLoggedUserBills([FromServices] IBillRepository repository)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId") ?? throw new NullReferenceException();
@@ -50,6 +54,7 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
+        [HasPermission(Privileges.BillDelete)]
         public async Task<ActionResult<GenericCommandResult>> DeleteBill([FromServices] IBillRepository repository, Guid id)
         {
             await repository.DeleteBill(id);
