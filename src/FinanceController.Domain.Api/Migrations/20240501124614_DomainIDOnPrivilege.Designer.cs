@@ -3,6 +3,7 @@ using System;
 using FinanceController.Domain.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinanceController.Domain.Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240501124614_DomainIDOnPrivilege")]
+    partial class DomainIDOnPrivilege
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,23 +129,6 @@ namespace FinanceController.Domain.Api.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("UsersPrivileges", b =>
-                {
-                    b.Property<Guid>("PrivilegesId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("PrivilegeId");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("UserId");
-
-                    b.HasKey("PrivilegesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("UsersPrivileges");
-                });
-
             modelBuilder.Entity("FinanceController.Domain.Entities.Bill", b =>
                 {
                     b.HasOne("FinanceController.Domain.Entities.BillType", "BillType")
@@ -169,21 +155,6 @@ namespace FinanceController.Domain.Api.Migrations
                         .HasForeignKey("DomainId");
 
                     b.Navigation("Domain");
-                });
-
-            modelBuilder.Entity("UsersPrivileges", b =>
-                {
-                    b.HasOne("FinanceController.Domain.Entities.Privilege", null)
-                        .WithMany()
-                        .HasForeignKey("PrivilegesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FinanceController.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FinanceController.Domain.Entities.BillType", b =>

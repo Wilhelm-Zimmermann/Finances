@@ -1,5 +1,6 @@
 using FinanceController.Domain.Api.Extensions;
 using FinanceController.Domain.Api.Middlewares;
+using FinanceController.Domain.Api.Seed;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,6 +60,10 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+//DomainSeed.EnsureSeed(app);
+//PrivilegeSeed.EnsureSeed(app);
+//UserPrivilege.EnsureSeedData(app);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -68,10 +73,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

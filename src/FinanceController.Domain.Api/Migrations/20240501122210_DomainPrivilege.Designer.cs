@@ -3,6 +3,7 @@ using System;
 using FinanceController.Domain.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinanceController.Domain.Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240501122210_DomainPrivilege")]
+    partial class DomainPrivilege
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,40 +75,6 @@ namespace FinanceController.Domain.Api.Migrations
                     b.ToTable("BillTypes");
                 });
 
-            modelBuilder.Entity("FinanceController.Domain.Entities.Domain", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Domains");
-                });
-
-            modelBuilder.Entity("FinanceController.Domain.Entities.Privilege", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("DomainId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DomainId");
-
-                    b.ToTable("Privileges");
-                });
-
             modelBuilder.Entity("FinanceController.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -124,23 +93,6 @@ namespace FinanceController.Domain.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("UsersPrivileges", b =>
-                {
-                    b.Property<Guid>("PrivilegesId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("PrivilegeId");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("UserId");
-
-                    b.HasKey("PrivilegesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("UsersPrivileges");
                 });
 
             modelBuilder.Entity("FinanceController.Domain.Entities.Bill", b =>
@@ -162,38 +114,9 @@ namespace FinanceController.Domain.Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceController.Domain.Entities.Privilege", b =>
-                {
-                    b.HasOne("FinanceController.Domain.Entities.Domain", "Domain")
-                        .WithMany("Privileges")
-                        .HasForeignKey("DomainId");
-
-                    b.Navigation("Domain");
-                });
-
-            modelBuilder.Entity("UsersPrivileges", b =>
-                {
-                    b.HasOne("FinanceController.Domain.Entities.Privilege", null)
-                        .WithMany()
-                        .HasForeignKey("PrivilegesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FinanceController.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("FinanceController.Domain.Entities.BillType", b =>
                 {
                     b.Navigation("Bills");
-                });
-
-            modelBuilder.Entity("FinanceController.Domain.Entities.Domain", b =>
-                {
-                    b.Navigation("Privileges");
                 });
 
             modelBuilder.Entity("FinanceController.Domain.Entities.User", b =>

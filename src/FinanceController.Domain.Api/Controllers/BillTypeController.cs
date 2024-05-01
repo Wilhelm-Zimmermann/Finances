@@ -1,7 +1,8 @@
-﻿using FinanceController.Domain.Commands;
+﻿using FinanceController.Domain.Api.Authentication;
+using FinanceController.Domain.Commands;
 using FinanceController.Domain.Handlers;
+using FinanceController.Domain.Infra.Commons.Constants;
 using FinanceController.Domain.Repositories.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceController.Domain.Api.Controllers
@@ -12,6 +13,7 @@ namespace FinanceController.Domain.Api.Controllers
     {
         [HttpPost]
         [Route("create")]
+        [HasPermission(Privileges.BillTypeCreate)]
         public async Task<ActionResult<GenericCommandResult>> CreateBillType([FromBody] CreateBillTypeCommand command, [FromServices] BillTypeHandler handler)
         {
             var result = await handler.Handle(command);
@@ -21,6 +23,7 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpGet]
         [Route("list")]
+        [HasPermission(Privileges.BillTypeRead)]
         public async Task<ActionResult<GenericCommandResult>> ListAllBillTypes([FromServices] IBillTypeRepository repository)
         {
             var result = await repository.GetAllBillTypes();
@@ -30,6 +33,7 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
+        [HasPermission(Privileges.BillTypeDelete)]
         public async Task<ActionResult<GenericCommandResult>> DeleteBillType([FromRoute] Guid id, [FromServices] IBillTypeRepository repository)
         {
             await repository.DeleteBillType(id);
