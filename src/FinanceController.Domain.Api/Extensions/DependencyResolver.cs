@@ -19,6 +19,8 @@ namespace FinanceController.Domain.Api.Extensions
                 });
             });
 
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             // REPOSITORIES
             builder.Services.AddScoped<IBillTypeRepository, BillTypeRepository>();
             builder.Services.AddScoped<IBillRepository, BillRepository>();
@@ -27,6 +29,7 @@ namespace FinanceController.Domain.Api.Extensions
             // HANDLERS
             builder.Services.AddScoped<BillTypeHandler, BillTypeHandler>();
             builder.Services.AddScoped<BillHandler, BillHandler>();
+            builder.Services.AddScoped<UserHandler, UserHandler>();
         }
     }
 }

@@ -5,17 +5,15 @@ namespace FinanceController.Domain.Commands
 {
     public class CreateUserCommand : ICommand
     {
+        public Guid? Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
 
-        public CreateUserCommand(string name, string email, string password, string role)
+        public CreateUserCommand(Guid id, string name, string email)
         {
             Name = name;
             Email = email;
-            Password = password;
-            Role = role;
+            Id = id;
         }
     }
 }
