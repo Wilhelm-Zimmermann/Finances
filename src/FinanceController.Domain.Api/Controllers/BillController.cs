@@ -2,6 +2,7 @@
 using FinanceController.Domain.Commands;
 using FinanceController.Domain.Handlers;
 using FinanceController.Domain.Infra.Commons.Constants;
+using FinanceController.Domain.Queries.Bills.GetBillsSum;
 using FinanceController.Domain.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,8 +39,8 @@ namespace FinanceController.Domain.Api.Controllers
         [Authorize(Privilege = Privileges.BillRead)]
         public async Task<ActionResult<GenericCommandResult>> ListLoggedUserBills([FromServices] IBillRepository repository)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId") ?? throw new NullReferenceException();
-            var bills = await repository.ListBillsByUserId(Guid.Parse(userId.Value));
+            var userId = HttpContext.Items["UserId"];
+            var bills = await repository.ListBillsByUserId((Guid)userId);
 
             if(bills.ToArray().Length <= 0)
             {
@@ -47,6 +48,15 @@ namespace FinanceController.Domain.Api.Controllers
             }
 
             return Ok(new GenericCommandResult(true, "Bills fetched successfully", bills));
+        }
+
+        [HttpGet]
+        [Route("sum")]
+        public async Task<ActionResult<GenericCommandResult>> GetSumByUserIdAndBillType([FromQuery] GetBillsSumQuery query, [FromServices] BillHandler handler)
+        {
+            var billsSum = await handler.Handle(query);
+
+            return Ok(billsSum);
         }
 
         [HttpDelete]
