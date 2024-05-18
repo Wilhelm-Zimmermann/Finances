@@ -13,7 +13,7 @@ namespace FinanceController.Domain.Api.Controllers
     {
         [HttpPost]
         [Route("create")]
-        [HasPermission(Privileges.BillTypeCreate)]
+        [Authorize(Privilege = Privileges.BillTypeCreate)]
         public async Task<ActionResult<GenericCommandResult>> CreateBillType([FromBody] CreateBillTypeCommand command, [FromServices] BillTypeHandler handler)
         {
             var result = await handler.Handle(command);
@@ -23,7 +23,7 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpGet]
         [Route("list")]
-        [HasPermission(Privileges.BillTypeRead)]
+        [Authorize(Privilege = Privileges.BillTypeRead)]
         public async Task<ActionResult<GenericCommandResult>> ListAllBillTypes([FromServices] IBillTypeRepository repository)
         {
             var result = await repository.GetAllBillTypes();
@@ -33,7 +33,7 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
-        [HasPermission(Privileges.BillTypeDelete)]
+        [Authorize(Privilege = Privileges.BillTypeDelete)]
         public async Task<ActionResult<GenericCommandResult>> DeleteBillType([FromRoute] Guid id, [FromServices] IBillTypeRepository repository)
         {
             await repository.DeleteBillType(id);

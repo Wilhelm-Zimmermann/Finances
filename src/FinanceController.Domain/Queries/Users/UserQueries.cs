@@ -1,7 +1,7 @@
 ﻿using FinanceController.Domain.Entities;
 using System.Linq.Expressions;
 
-namespace FinanceController.Domain.Queries
+namespace FinanceController.Domain.Queries.Users
 {
     public static class UserQueries
     {

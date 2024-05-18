@@ -2,8 +2,8 @@
 using FinanceController.Domain.Commands;
 using FinanceController.Domain.Handlers;
 using FinanceController.Domain.Infra.Commons.Constants;
+using FinanceController.Domain.Queries.Bills.GetBillsSum;
 using FinanceController.Domain.Repositories.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceController.Domain.Api.Controllers
@@ -14,12 +14,10 @@ namespace FinanceController.Domain.Api.Controllers
     {
         [HttpPost]
         [Route("create/{billTypeId}")]
-        [HasPermission(Privileges.BillCreate)]
+        [Authorize(Privilege = Privileges.BillCreate)]
         public async Task<ActionResult<GenericCommandResult>> CreateBill([FromBody] CreateBillCommand command, [FromServices] BillHandler handler, Guid billTypeId)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId") ?? throw new NullReferenceException();
             command.BillTypeId = billTypeId;
-            command.UserId = Guid.Parse(userId.Value);
             var result = await handler.Handle(command);
 
             return StatusCode(201, result);
@@ -27,7 +25,7 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpGet]
         [Route("list")]
-        [HasPermission(Privileges.BillRead)]
+        [Authorize(Privilege = Privileges.BillRead)]
         public async Task<ActionResult<GenericCommandResult>> ListAllBills([FromServices] IBillRepository repository)
         {
             var bills = await repository.GetAllBills();
@@ -38,11 +36,11 @@ namespace FinanceController.Domain.Api.Controllers
 
         [HttpGet]
         [Route("list/user-logged")]
-        [HasPermission(Privileges.BillRead)]
+        [Authorize(Privilege = Privileges.BillRead)]
         public async Task<ActionResult<GenericCommandResult>> ListLoggedUserBills([FromServices] IBillRepository repository)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId") ?? throw new NullReferenceException();
-            var bills = await repository.ListBillsByUserId(Guid.Parse(userId.Value));
+            var userId = HttpContext.Items["UserId"];
+            var bills = await repository.ListBillsByUserId((Guid)userId);
 
             if(bills.ToArray().Length <= 0)
             {
@@ -52,9 +50,18 @@ namespace FinanceController.Domain.Api.Controllers
             return Ok(new GenericCommandResult(true, "Bills fetched successfully", bills));
         }
 
+        [HttpGet]
+        [Route("sum")]
+        public async Task<ActionResult<GenericCommandResult>> GetSumByUserIdAndBillType([FromQuery] GetBillsSumQuery query, [FromServices] BillHandler handler)
+        {
+            var billsSum = await handler.Handle(query);
+
+            return Ok(billsSum);
+        }
+
         [HttpDelete]
         [Route("delete/{id}")]
-        [HasPermission(Privileges.BillDelete)]
+        [Authorize(Privilege = Privileges.BillDelete)]
         public async Task<ActionResult<GenericCommandResult>> DeleteBill([FromServices] IBillRepository repository, Guid id)
         {
             await repository.DeleteBill(id);

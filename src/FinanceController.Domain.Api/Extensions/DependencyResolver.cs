@@ -2,6 +2,8 @@
 using FinanceController.Domain.Infra.Contexts;
 using FinanceController.Domain.Infra.Repositories;
 using FinanceController.Domain.Repositories.Contracts;
+using FinanceController.Domain.RequestHelpers;
+using FinanceController.Domain.RequestHelpers.Implementations;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceController.Domain.Api.Extensions
@@ -20,6 +22,9 @@ namespace FinanceController.Domain.Api.Extensions
             });
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // SERVICES
+            builder.Services.AddScoped<IUserService, UserService>();
 
             // REPOSITORIES
             builder.Services.AddScoped<IBillTypeRepository, BillTypeRepository>();

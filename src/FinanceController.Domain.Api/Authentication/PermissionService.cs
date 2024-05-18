@@ -1,5 +1,6 @@
 ﻿
 using FinanceController.Domain.Infra.Contexts;
+using FinanceController.Domain.RequestHelpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceController.Domain.Api.Authentication;
@@ -13,14 +14,14 @@ public class PermissionService : IPermissionService
         _scope = scope;
     }
 
-    public async Task<bool> IsAuthorize(string userName, string privilege)
+    public async Task<bool> IsAuthorize(Guid userId, string privilege)
     {
         using var scope = _scope.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 
         var user = await context.Users
             .Include(u => u.Privileges.Where(x => x.Name == privilege))
-            .FirstOrDefaultAsync(x => x.Name == userName);
+            .FirstOrDefaultAsync(x => x.Id == userId);
         
         if(user != null)
         {

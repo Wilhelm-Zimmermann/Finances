@@ -1,6 +1,6 @@
 ﻿using FinanceController.Domain.Entities;
 using FinanceController.Domain.Infra.Contexts;
-using FinanceController.Domain.Queries;
+using FinanceController.Domain.Queries.Users;
 using FinanceController.Domain.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 

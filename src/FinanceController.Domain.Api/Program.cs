@@ -7,12 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.ConfigAuthorizationSettings();
+builder.Resolve();
+builder.ResolveMassTransitDependencies();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.ResolveMassTransitDependencies();
-builder.Resolve();
 
 var AllowedOrigins = "_allowedOrigins";
 
@@ -70,9 +70,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<UserIdMiddleware>();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
+app.UseRouting();
+
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

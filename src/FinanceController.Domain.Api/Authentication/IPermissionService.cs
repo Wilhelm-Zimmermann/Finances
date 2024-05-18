@@ -2,5 +2,5 @@
 
 public interface IPermissionService
 {
-    Task<bool> IsAuthorize(string userName, string privilege);
+    Task<bool> IsAuthorize(Guid userId, string privilege);
 }
