@@ -1,9 +1,5 @@
-﻿using FinanceController.Domain.Infra.Contexts;
-using FinanceController.Domain.RequestHelpers;
-using FinanceController.Domain.RequestHelpers.Implementations;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FinanceController.Domain.Api.Authentication;
 
