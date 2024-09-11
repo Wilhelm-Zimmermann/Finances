@@ -1,6 +1,6 @@
 ﻿using FinanceController.Domain.Commands;
 using FinanceController.Domain.Handlers;
-using Library.MessageBusEvents.Users;
+using FinanceController.Domain.Infra.Events.User;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 

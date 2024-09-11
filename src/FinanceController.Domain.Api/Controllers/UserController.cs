@@ -10,8 +10,6 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<GenericCommandResult>> CreateUser()
     {
-
-
         return new GenericCommandResult(true, "message", new {});
     }
 }
